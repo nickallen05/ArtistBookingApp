@@ -1,0 +1,65 @@
+-- Create database
+CREATE DATABASE ArtistBooking;
+
+-- Create User Login Table
+CREATE TABLE UserLogin (
+    UserID INT PRIMARY KEY,
+    Username VARCHAR(50) NOT NULL
+);
+
+-- Create Artist Info Table
+CREATE TABLE ArtistInfo (
+    ArtistID INT PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES UserLogin(UserID),
+    PasswordID INT FOREIGN KEY REFERENCES Password(PasswordID)
+);
+
+-- Create Booking Table
+CREATE TABLE Booking (
+    BookingID INT PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES UserLogin(UserID),
+    ArtistID INT FOREIGN KEY REFERENCES ArtistInfo(ArtistID),
+    EventID INT FOREIGN KEY REFERENCES Event(EventID)
+);
+
+-- Create Event Table
+CREATE TABLE Event (
+    EventID INT PRIMARY KEY,
+    LocationID INT FOREIGN KEY REFERENCES Location(LocationID)
+);
+
+-- Create Location Table
+CREATE TABLE Location (
+    LocationID INT PRIMARY KEY
+    Address VARCHAR(255),
+    City VARCHAR(100),
+    State VARCHAR(100),
+    ZipCode VARCHAR(20)
+);
+
+-- Create Review/Rating Table
+CREATE TABLE ReviewRating (
+    ReviewID INT PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES UserLogin(UserID),
+    ArtistID INT FOREIGN KEY REFERENCES ArtistInfo(ArtistID)
+);
+
+-- Create Payment Transaction Table
+CREATE TABLE PaymentTransaction (
+    TransactionID INT PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES UserLogin(UserID),
+    ArtistID INT FOREIGN KEY REFERENCES ArtistInfo(ArtistID)
+);
+
+-- Create Admin Table
+CREATE TABLE Admin (
+    AdminID INT PRIMARY KEY,
+    UserID INT FOREIGN KEY REFERENCES UserLogin(UserID)
+);
+
+-- Create Password Table
+CREATE TABLE Password (
+    PasswordID INT PRIMARY KEY,
+    PasswordHash VARCHAR(255),
+    UserID INT FOREIGN KEY REFERENCES UserLogin(UserID)
+);
